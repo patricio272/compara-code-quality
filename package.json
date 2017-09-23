@@ -1,0 +1,22 @@
+{
+  "name": "compara-code-quality",
+  "version": "1.0.0",
+  "description": "ComparaOnline Code Quality Task",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patricio272/compara-code-quality.git"
+  },
+  "author": "Patricio Toledo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/patricio272/compara-code-quality/issues"
+  },
+  "homepage": "https://github.com/patricio272/compara-code-quality#readme",
+  "devDependencies": {
+    "winston": "^2.3.1"
+  }
+}
