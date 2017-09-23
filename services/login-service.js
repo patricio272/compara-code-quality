@@ -16,6 +16,7 @@ LoginService.prototype.logout = function (user) {
     this.sessions.forEach((session, i) => {
         if (session === user) {
             this.sessions[i] = null;
+            logger.log('debug', '[login-service][logout]: User %s logged out', user);
         }
     });
     this.sessions = this.sessions.filter(session => session !== null);
