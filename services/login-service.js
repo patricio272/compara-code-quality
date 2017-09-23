@@ -23,8 +23,7 @@ function userExists(user) {
             temp = user;
         }
     }
-    let exists = (temp !== '' && temp === user);
-    return exists;
+    return (temp !== '' && temp === user);
 }
 
 function removeUser(user) {
@@ -37,8 +36,7 @@ function removeUser(user) {
 
 function checkPassword(user, password) {
     let index = idx(user, this.users);
-    let passwordCorrect = this.passwords[index] === password;
-    return passwordCorrect;
+    return this.passwords[index] === password;
 }
 
 // Gets index of an element in an array
