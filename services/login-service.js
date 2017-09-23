@@ -15,20 +15,25 @@ function LoginService(hash) {
 // Utilitarian (private) Methods
 
 // Checks if user exists
-function userExists(user) {
-    // Temp variable for storing the user if found
+function userExists(user, userList) {
     let temp = '';
-    for (let i of this.users) {
+    for (let i of userList) {
         if (i === user) {
             temp = user;
+            break;
         }
     }
     return (temp !== '' && temp === user);
 }
 
-function checkPassword(user, password) {
-    let index = idx(user, this.users);
-    return this.passwords[index] === password;
+function checkPassword(user, password, userList, passwordList) {
+    let index = idx(user, userList);
+    return passwordList[index] === password;
+}
+
+function renewPassword(user, newPassword, userList, passwordList) {
+    let index = idx(user, userList);
+    passwordList[index] = newPassword;
 }
 
 // Gets index of an element in an array
@@ -63,17 +68,9 @@ LoginService.prototype.registerUser = function (user, password) {
 };
 
 LoginService.prototype.updatePassword = function (user, oldPassword, newPassword) {
-    // First we check if the user exists
-    let user1 = '';
-    for (let i of this.users) {
-        if (i === user) {
-            user1 = user;
-        }
-    }
-    if (user1 === user) {
-        let index = idx(user, this.users);
-        if (this.passwords[index] === oldPassword) {
-            this.passwords[index] = newPassword;
+    if (userExists(user, this.users)) {
+        if (checkPassword(user, oldPassword, this.users, this.passwords)) {
+            renewPassword(user, newPassword, this.users, this.passwords);
             logger.log('debug', '[login-service][updatePassword]: Update of user "%s" password successful', user);
             return true;
         }
