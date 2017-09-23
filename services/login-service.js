@@ -12,15 +12,7 @@ function LoginService(hash) {
 }
 
 
-LoginService.prototype.logout = function (user) {
-    this.sessions.forEach((session, i) => {
-        if (session === user) {
-            this.sessions[i] = null;
-            logger.log('debug', '[login-service][logout]: User %s logged out', user);
-        }
-    });
-    this.sessions = this.sessions.filter(session => session !== null);
-};
+// Utilitarian (private) Methods
 
 // Checks if user exists
 function userExists(user) {
@@ -35,14 +27,6 @@ function userExists(user) {
     return exists;
 }
 
-// Register user
-LoginService.prototype.registerUser = function (user, password) {
-    let lastIndex = this.users.length;
-    this.users[lastIndex] = user;
-    this.passwords[lastIndex] = password;
-    logger.log('debug', '[login-service][registerUser]: User %s registered.', user);
-};
-
 function removeUser(user) {
     let index = idx(user, this.users);
     this.users[index] = null;
@@ -56,6 +40,37 @@ function checkPassword(user, password) {
     let passwordCorrect = this.passwords[index] === password;
     return passwordCorrect;
 }
+
+// Gets index of an element in an array
+function idx(element, array) {
+    let cont=0;
+    for (let i of array) {
+        if (i === element) {
+            return cont;
+        }
+        cont += 1;
+    }
+    return cont;
+}
+
+// Exposed Methods
+LoginService.prototype.logout = function (user) {
+    this.sessions.forEach((session, i) => {
+        if (session === user) {
+            this.sessions[i] = null;
+            logger.log('debug', '[login-service][logout]: User %s logged out', user);
+        }
+    });
+    this.sessions = this.sessions.filter(session => session !== null);
+};
+
+// Register user
+LoginService.prototype.registerUser = function (user, password) {
+    let lastIndex = this.users.length;
+    this.users[lastIndex] = user;
+    this.passwords[lastIndex] = password;
+    logger.log('debug', '[login-service][registerUser]: User %s registered.', user);
+};
 
 LoginService.prototype.updatePassword = function (user, oldPassword, newPassword) {
     // First we check if the user exists
@@ -84,17 +99,5 @@ LoginService.prototype.login = function (user, password) {
         logger.log('debug', '[login-service][login]: User %s successfully logged in', user);
     }
 };
-
-// Gets index of an element in an array
-function idx(element, array) {
-    let cont=0;
-    for (let i of array) {
-        if (i === element) {
-            return cont;
-        }
-        cont += 1;
-    }
-    return cont;
-}
 
 module.exports = LoginService;
