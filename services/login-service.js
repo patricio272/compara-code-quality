@@ -26,14 +26,6 @@ function userExists(user) {
     return (temp !== '' && temp === user);
 }
 
-function removeUser(user) {
-    let index = idx(user, this.users);
-    this.users[index] = null;
-    this.passwords[index] = null;
-    this.users = this.users.filter(user => user !== null);
-    this.passwords = this.passwords.filter(password => password !== null);
-}
-
 function checkPassword(user, password) {
     let index = idx(user, this.users);
     return this.passwords[index] === password;
