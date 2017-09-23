@@ -61,10 +61,15 @@ LoginService.prototype.logout = function (user) {
 
 // Register user
 LoginService.prototype.registerUser = function (user, password) {
-    let lastIndex = this.users.length;
-    this.users[lastIndex] = user;
-    this.passwords[lastIndex] = password;
-    logger.log('debug', '[login-service][registerUser]: User %s registered.', user);
+    if (!userExists(user, this.users)) {
+        let lastIndex = this.users.length;
+        this.users[lastIndex] = user;
+        this.passwords[lastIndex] = password;
+        logger.log('debug', '[login-service][registerUser]: User %s registered.', user);
+        return true;
+    }
+    logger.log('debug', '[login-service][registerUser]: User %s is already registered.', user);
+    return false;
 };
 
 LoginService.prototype.updatePassword = function (user, oldPassword, newPassword) {
@@ -84,7 +89,10 @@ LoginService.prototype.login = function (user, password) {
     if (this.passwords[index] === password) {
         this.sessions.push(user);
         logger.log('debug', '[login-service][login]: User %s successfully logged in', user);
+        return true;
     }
+    logger.log('debug', '[login-service][login]: User %s login failed', user);
+    return false;
 };
 
 module.exports = LoginService;
