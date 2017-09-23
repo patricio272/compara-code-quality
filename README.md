@@ -1,5 +1,5 @@
 # compara-code-quality
-ComparaOnline Code Quality
+ComparaOnline Code Quality Task
 
 ### Installation
 
