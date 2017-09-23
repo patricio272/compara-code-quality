@@ -1,3 +1,5 @@
+const logger = require('../config/logger-conf');
+
 function LoginService(hash) {
     this.sessions = [];
     this.users = [];
@@ -6,6 +8,7 @@ function LoginService(hash) {
         this.users = this.users.concat([e.k]);
         this.passwords = this.passwords.concat([e.v]);
     });
+    logger.log('debug', '[login-service]: DB Setup completed. Now running methods.');
 }
 
 
@@ -36,6 +39,7 @@ LoginService.prototype.registerUser = function (user, password) {
     let lastIndex = this.users.length;
     this.users[lastIndex] = user;
     this.passwords[lastIndex] = password;
+    logger.log('debug', '[login-service][registerUser]: User %s registered.', user);
 };
 
 function removeUser(user) {
@@ -64,9 +68,11 @@ LoginService.prototype.updatePassword = function (user, oldPassword, newPassword
         let index = idx(user, this.users);
         if (this.passwords[index] === oldPassword) {
             this.passwords[index] = newPassword;
+            logger.log('debug', '[login-service][updatePassword]: Update of user "%s" password successful', user);
             return true;
         }
     }
+    logger.log('debug', '[login-service][updatePassword]: Update of user "%s" password failed', user);
     return false;
 };
 
@@ -74,6 +80,7 @@ LoginService.prototype.login = function (user, password) {
     let index = idx(user, this.users);
     if (this.passwords[index] === password) {
         this.sessions.push(user);
+        logger.log('debug', '[login-service][login]: User %s successfully logged in', user);
     }
 };
 

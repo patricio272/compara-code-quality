@@ -1,15 +1,11 @@
 'use strict';
 
-const logger = require('winston');
-const LoginService = require('./services/login');
+const logger = require('./config/logger-conf');
+const LoginService = require('./services/login-service');
+const REGISTERED_USERS = require('./config/db/users');
 
-let registeredUsers = {
-    user1: 'pass1',
-    user2: 'pass2',
-    user3: 'pass3'
-};
-
-let loginService = new LoginService(registeredUsers);
+logger.log('debug', '[app]: Starting app');
+let loginService = new LoginService(REGISTERED_USERS);
 
 loginService.registerUser('user4', 'pass4');
 loginService.login('user4', 'pass4');
